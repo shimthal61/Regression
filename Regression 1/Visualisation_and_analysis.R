@@ -42,5 +42,21 @@ print(0.69*0.69)*100
 
 #Therefore, about 48% of the variance in Violent Crimes are explained by population size
 
-#Lets create a linear model
+#Lets create a linear model. First we filter for just the year 2015
+crime_filtered <- filter(crime_filtered, Year == 2015)
 
+crime_filtered %>% 
+  ggplot(aes(x = Population, y = Violent_Crimes, label = City)) +
+  geom_point() +
+  geom_text(nudge_y = 500, check_overlap = TRUE) +
+  geom_smooth(method = "lm", se = FALSE) +
+  xlim(0, 1800000) +
+  theme_minimal() +
+  theme(text = element_text(size = 13)) + 
+  labs(title = "Examining the Effect of Population on Violent Crimes",
+       x = "Population",
+       y = "Violent Crimes")
+
+rcorr(crime_filtered$Population, crime_filtered$Violent_Crimes)  
+
+print(0.65*0.65)*100
