@@ -42,7 +42,6 @@ print(0.69*0.69)*100
 
 #Therefore, about 48% of the variance in Violent Crimes are explained by population size
 
-#Lets create a linear model. First we filter for just the year 2015
 crime_filtered <- filter(crime_filtered, Year == 2015)
 
 crime_filtered %>% 
@@ -59,4 +58,32 @@ crime_filtered %>%
 
 rcorr(crime_filtered$Population, crime_filtered$Violent_Crimes)  
 
-print(0.65*0.65)*100
+
+#We need to create two linear models. 
+#Model 1 will use the means of out outcome variable as the predictor
+model1 <- lm(Violent_Crimes ~ 1, data = crime_filtered)
+
+#Model 2 will use Population size to predict Violent Crimes
+model2 <- lm(Violent_Crimes ~ Population, data = crime_filtered)
+
+#Now we check our assumptions
+check_model(model2)
+
+#Finally, we can use the anova() function to see if the model which uses 
+#population as a predictor is better than using the model which uses the mean
+
+anova(model1, model2)
+
+#We can see that the RSS (Residual Sum of Squares) is less in out second model.
+#Therefore, the using Population as a predictor is better than using the mean
+
+#Let's get the parameter estimates of model 2
+
+summary(model2)
+#We can see that every time population increases by 1, violent crime is estimated to increase by 0.006963
+#Therefore, we can estimate the amount of violent crime in a place with population 1,000,000 
+
+#(Estimate * Population) + Intercept 
+print(0.006963*1000000)+944.3 
+
+#For a city with population 1,000,000, we estimate there will be 7907.3 crimes
