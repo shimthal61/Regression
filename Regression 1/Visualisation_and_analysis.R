@@ -14,12 +14,15 @@ rcorr(crime_tidy$Population, crime_tidy$Violent_Crimes)
 #Looking at the bottom, our p value is 0 (i.e. p < 0.001.)
 
 #Let's calculate our r^2 value
-print(0.81*0.81)*100
+(0.81*0.81)*100
+
 #Therefore, around 66% of the variance in our Violent_Crimes variable is explained by population size
 
+#Filtering our data so that our data is not being skewed
 crime_filtered <- crime_tidy %>% 
   filter(Population < 2000000)
 
+#New plot with filtered data set
 crime_filtered %>% 
   ggplot(aes(x = Population, y = Violent_Crimes)) +
   geom_point(alpha = .25) +
@@ -29,3 +32,15 @@ crime_filtered %>%
   labs(title = "Examining the Effect of Population on Violent Crimes",
        x = "Population",
        y = "Violent Crime")
+
+
+#Pearson's r with filtered data set
+rcorr(crime_filtered$Population, crime_filtered$Violent_Crimes)
+
+#Calculate r^2 
+print(0.69*0.69)*100
+
+#Therefore, about 48% of the variance in Violent Crimes are explained by population size
+
+#Lets create a linear model
+
