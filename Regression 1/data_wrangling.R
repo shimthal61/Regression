@@ -6,3 +6,8 @@ crime_tidy <- crime_messy %>%
   separate(col = "City..State", into = c("City", "State")) %>%
   rename(House_Price = "index_nsa") %>% 
   rename(Violent_Crimes = "Violent.Crimes")
+
+head(crime_tidy)
+
+
+     
