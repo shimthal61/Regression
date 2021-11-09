@@ -1,3 +1,6 @@
 library(tidyverse)
-library(Hmisc)
+library(Hmisc) 
 library(performance)
+library(MASS)
+library(car)
+library(olsrr)
