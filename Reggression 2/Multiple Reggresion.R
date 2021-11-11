@@ -62,3 +62,33 @@ model3 <- lm(corr_spell ~ age + std_RA + std_SPELL, data = MRes_tut2_drop10)
 check_model(model3)
 
 vif(model3)
+
+# Now we generate our coefficients
+
+summary(model3)
+
+model0 <- lm(corr_spell ~ 1, data=MRes_tut2_drop10)
+
+anova(model3, model0)
+
+# Modelling the data
+
+model0 <- lm(corr_spell ~ 1, data = MRes_tut2_drop10)
+model1 <- lm(corr_spell ~ age + std_RA + std_SPELL, data = MRes_tut2_drop10)
+
+steplimitsf <- step(model0, scope = list (lower = model0, upper = model1), direction = "forward")
+
+summary(steplimitsf)
+
+steplimitsb <- step(model1, direction = "back")
+
+summary(steplimitsb)
+
+steplimitsboth <- step(model0, scope = list (upper = model1), direction = "both")
+
+check_model(steplimitsboth)
+
+summary(steplimitsboth)
+
+pmodel <- ols_step_forward_p(model1)
+pmodel
